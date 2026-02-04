@@ -16,6 +16,7 @@ import {
   registerFundingCommand,
   registerConfigCommand,
   registerMonitorCommand,
+  registerTuiCommand,
 } from './commands/index.js';
 
 const program = new Command();
@@ -23,7 +24,7 @@ const program = new Command();
 program
   .name('zirodelta')
   .description('Agent-native CLI for funding rate arbitrage')
-  .version('0.1.0')
+  .version('0.2.0')
   .option('-d, --debug', 'Enable debug output')
   .hook('preAction', (thisCommand) => {
     if (thisCommand.opts().debug) {
@@ -39,6 +40,7 @@ registerCloseCommand(program);
 registerFundingCommand(program);
 registerConfigCommand(program);
 registerMonitorCommand(program);
+registerTuiCommand(program);
 
 // Add help examples
 program.addHelpText('after', `
@@ -57,6 +59,9 @@ ${chalk.bold('Examples:')}
 
   ${chalk.gray('# Monitor in real-time')}
   $ zirodelta monitor --interval 10
+
+  ${chalk.gray('# Launch TUI dashboard')}
+  $ zirodelta tui
 
   ${chalk.gray('# Set API token')}
   $ zirodelta config set token YOUR_TOKEN
