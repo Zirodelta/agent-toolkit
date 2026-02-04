@@ -1,5 +1,5 @@
 {
-  "name": "@zirodelta/agent-toolkit",
+  "name": "zirodelta-agent-toolkit",
   "version": "0.1.0",
   "description": "Agent-native infrastructure for autonomous funding rate farming with Zirodelta",
   "type": "module",
