@@ -10,3 +10,4 @@ export { registerFundingCommand } from './funding.js';
 export { registerConfigCommand } from './config.js';
 export { registerMonitorCommand } from './monitor.js';
 export { registerTuiCommand } from './tui.js';
+export { registerStrategyCommand } from './strategy.js';

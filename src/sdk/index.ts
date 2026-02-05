@@ -86,6 +86,34 @@ export {
   ExecutionError,
 } from './types.js';
 
+// Re-export strategy engine
+export {
+  StrategyEngine,
+  createStrategyEngine,
+  getDefaultProfile,
+  getRiskProfile,
+  getAllRiskProfiles,
+  RISK_PROFILES,
+} from '../strategy/index.js';
+
+// Re-export strategy types
+export type {
+  RiskProfileType,
+  RiskProfileSettings,
+  AgentProfile,
+  ExchangeConfig,
+  StrategyRecommendation,
+  RecommendedOpportunity,
+  TargetProgress,
+  CurrentPosition,
+  ExchangeBalance,
+  BalanceSummary,
+  RebalanceSuggestion,
+  PositionSizeResult,
+  DiversificationAnalysis,
+  StopLossRecommendation,
+} from '../strategy/types.js';
+
 // Convenience factory function
 import { ZirodeltaClient } from './client.js';
 import type { ZirodeltaClientConfig } from './types.js';

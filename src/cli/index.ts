@@ -17,6 +17,7 @@ import {
   registerConfigCommand,
   registerMonitorCommand,
   registerTuiCommand,
+  registerStrategyCommand,
 } from './commands/index.js';
 
 const program = new Command();
@@ -24,7 +25,7 @@ const program = new Command();
 program
   .name('zirodelta')
   .description('Agent-native CLI for funding rate arbitrage')
-  .version('0.2.0')
+  .version('0.3.0')
   .option('-d, --debug', 'Enable debug output')
   .hook('preAction', (thisCommand) => {
     if (thisCommand.opts().debug) {
@@ -41,6 +42,7 @@ registerFundingCommand(program);
 registerConfigCommand(program);
 registerMonitorCommand(program);
 registerTuiCommand(program);
+registerStrategyCommand(program);
 
 // Add help examples
 program.addHelpText('after', `
@@ -65,6 +67,15 @@ ${chalk.bold('Examples:')}
 
   ${chalk.gray('# Set API token')}
   $ zirodelta config set token YOUR_TOKEN
+
+  ${chalk.gray('# Initialize strategy profile')}
+  $ zirodelta strategy init --risk moderate --bybit 1000 --kucoin 1000
+
+  ${chalk.gray('# Get recommendations')}
+  $ zirodelta strategy recommend
+
+  ${chalk.gray('# Check target progress')}
+  $ zirodelta strategy status
 
 ${chalk.bold('Environment Variables:')}
   ZIRODELTA_TOKEN      API bearer token
