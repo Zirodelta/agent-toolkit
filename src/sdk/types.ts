@@ -361,7 +361,7 @@ export interface Metrics {
 // ============================================================================
 
 export interface ZirodeltaClientConfig {
-  /** Base URL for the API (default: https://api.zirodelta.com) */
+  /** Base URL for the API (default: https://api.zirodelta.xyz) */
   baseUrl?: string;
   
   /** Bearer token for authentication */

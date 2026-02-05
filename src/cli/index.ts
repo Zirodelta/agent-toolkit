@@ -79,7 +79,7 @@ ${chalk.bold('Examples:')}
 
 ${chalk.bold('Environment Variables:')}
   ZIRODELTA_TOKEN      API bearer token
-  ZIRODELTA_API_URL    API base URL (default: https://api.zirodelta.com)
+  ZIRODELTA_API_URL    API base URL (default: https://api.zirodelta.xyz)
 `);
 
 program.parse();
