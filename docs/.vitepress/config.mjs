@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: 'Zirodelta Agent Toolkit',
   description: 'Agent-native infrastructure for autonomous funding rate farming',
-  base: '/agent-toolkit/',
+  base: '/',
   
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
