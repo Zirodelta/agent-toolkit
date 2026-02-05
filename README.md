@@ -205,7 +205,7 @@ zirodelta tui
 
 ```typescript
 const client = new ZirodeltaClient({
-  baseUrl?: string,    // API base URL (default: https://api.zirodelta.com)
+  baseUrl?: string,    // API base URL (default: https://api.zirodelta.xyz)
   token?: string,      // Bearer token for authentication
   timeout?: number,    // Request timeout in ms (default: 30000)
   debug?: boolean      // Enable debug logging
@@ -281,7 +281,7 @@ ZIRODELTA_API_URL    # API base URL (optional)
 ```json
 {
   "token": "your-token",
-  "baseUrl": "https://api.zirodelta.com",
+  "baseUrl": "https://api.zirodelta.xyz",
   "defaultExchangePair": "kucoin-bybit",
   "defaultAmount": 100
 }
@@ -333,7 +333,7 @@ This toolkit is a TypeScript client wrapping the Zirodelta Python backend's JSON
 
 ### API Base URL
 
-Production: `https://api.zirodelta.com/api/v1/jsonrpc/`
+Production: `https://api.zirodelta.xyz/jsonrpc/`
 
 ## Development
 

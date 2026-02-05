@@ -9,6 +9,7 @@ import type {
   JsonRpcRequest,
   JsonRpcResponse,
   ExchangePair,
+  ExchangeName,
   GetOpportunitiesParams,
   GetOpportunitiesResponse,
   Opportunity,
@@ -30,7 +31,7 @@ import {
   RateLimitError,
 } from './types.js';
 
-const DEFAULT_BASE_URL = 'https://api.zirodelta.com';
+const DEFAULT_BASE_URL = 'https://api.zirodelta.xyz';
 const DEFAULT_TIMEOUT = 30000;
 
 export class ZirodeltaClient {
@@ -101,7 +102,7 @@ export class ZirodeltaClient {
     const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
     try {
-      const response = await fetch(`${this.baseUrl}/api/v1/jsonrpc/`, {
+      const response = await fetch(`${this.baseUrl}/jsonrpc/`, {
         method: 'POST',
         headers,
         body: JSON.stringify(request),
@@ -220,16 +221,84 @@ export class ZirodeltaClient {
   async getOpportunities(
     params: GetOpportunitiesParams
   ): Promise<GetOpportunitiesResponse> {
-    return this.rpc<GetOpportunitiesParams, GetOpportunitiesResponse>(
+    // API returns different structure, transform it
+    interface ApiOpportunity {
+      symbol: string;
+      pair_uid: string;
+      direction: string;
+      venues: string;
+      long_venue: string;
+      short_venue: string;
+      epoch_hours: number;
+      chosen_per_epoch: number;
+      apr: number;
+      long_rate: number;
+      short_rate: number;
+      funding_delta: number;
+      next_funding_timestamp: number;
+      updated_at: number;
+      anomaly_direction?: boolean;
+      anomaly_reason?: string | null;
+    }
+    
+    interface ApiResponse {
+      status: number;
+      data: ApiOpportunity[];
+      pagination: {
+        current_page: number;
+        per_page: number;
+        total_count: number;
+        total_pages: number;
+        has_next: boolean;
+        has_previous: boolean;
+      };
+    }
+
+    const response = await this.rpc<GetOpportunitiesParams, ApiResponse>(
       'get_opportunities',
       {
         exchangepair: params.exchangepair,
         page: params.page || 1,
         limit: params.limit || 20,
         q: params.q,
-        sortby: params.sortby || 'spread',
+        sortby: params.sortby === 'spread' ? 'apr' : params.sortby || 'apr',
       }
     );
+
+    // Transform to expected format
+    const opportunities: Opportunity[] = response.data.map((opp) => ({
+      id: opp.pair_uid,
+      symbol: opp.symbol,
+      pair: opp.venues,
+      long_exchange: opp.long_venue as ExchangeName,
+      short_exchange: opp.short_venue as ExchangeName,
+      long_funding_rate: opp.long_rate * 100, // Convert to percentage
+      short_funding_rate: opp.short_rate * 100,
+      spread: opp.funding_delta * 100, // funding_delta is the spread
+      long_price: 0, // Not provided by API
+      short_price: 0,
+      price_diff_pct: 0,
+      risk_score: opp.anomaly_direction ? 5 : 3, // Simple risk mapping
+      liquidity_score: 5,
+      next_funding_time: new Date(opp.next_funding_timestamp * 1000).toISOString(),
+      hours_to_funding: opp.epoch_hours,
+      created_at: new Date(opp.updated_at * 1000).toISOString(),
+      updated_at: new Date(opp.updated_at * 1000).toISOString(),
+      // Extended fields from API
+      apr: opp.apr,
+      direction: opp.direction,
+      anomaly_reason: opp.anomaly_reason,
+    }));
+
+    return {
+      opportunities,
+      pagination: {
+        page: response.pagination.current_page,
+        limit: response.pagination.per_page,
+        total: response.pagination.total_count,
+        total_pages: response.pagination.total_pages,
+      },
+    };
   }
 
   /**
@@ -384,7 +453,7 @@ export class ZirodeltaClient {
    * Get funding fees breakdown
    */
   async getFundingFees(): Promise<GetFundingFeesResponse> {
-    return this.get<GetFundingFeesResponse>('/api/v1/metrics/funding-fees');
+    return this.get<GetFundingFeesResponse>('/metrics/funding-fees');
   }
 
   /**
@@ -398,15 +467,15 @@ export class ZirodeltaClient {
       roi,
       tvl,
     ] = await Promise.all([
-      this.get<{ timestamp: string }>('/api/v1/metrics/timestamp'),
+      this.get<{ timestamp: string }>('/metrics/timestamp'),
       this.get<{ queued_count: number; running_count: number; active_count: number }>(
-        '/api/v1/metrics/executions/active'
+        '/metrics/executions/active'
       ),
       this.get<{ total_volume: number; trade_count: number }>(
-        '/api/v1/metrics/volume'
+        '/metrics/volume'
       ),
-      this.get<{ averageROI: number }>('/api/v1/metrics/arbitrage-roi'),
-      this.get<{ tvl: number }>('/api/v1/metrics/tvl'),
+      this.get<{ averageROI: number }>('/metrics/arbitrage-roi'),
+      this.get<{ tvl: number }>('/metrics/tvl'),
     ]);
 
     return {

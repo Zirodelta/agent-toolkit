@@ -90,18 +90,49 @@ zirodelta close exec_xyz789 --force
 
 ### Base URL
 ```
-https://api.zirodelta.com/api/v1
+https://api.zirodelta.xyz
 ```
 
 ### Authentication
-All authenticated endpoints require:
-```
-Authorization: Bearer <token>
-```
+
+Zirodelta uses **Matrica OAuth** for user authentication and **Exchange OAuth** (Bybit/KuCoin) for connecting trading accounts.
+
+#### How Auth Works
+
+1. **User Login (Matrica OAuth)**
+   - Users authenticate via Matrica (a Web3 identity provider)
+   - Flow: Browser → `GET /auth/matrica/initiate` → Matrica OAuth → Callback → JWT token
+   - The JWT token is what agents use as a bearer token
+
+2. **Exchange Account Connection (OAuth)**
+   - After Matrica login, users connect their exchange accounts:
+     - **Bybit**: OAuth flow via `/oauth/bybit/callback`
+     - **KuCoin**: OAuth flow via `/oauth/kucoin/callback`
+   - These grant Zirodelta permission to execute trades on behalf of the user
+   - Credentials are encrypted and stored server-side
+
+3. **Agent Bearer Token**
+   - Agents receive a JWT bearer token after user authenticates
+   - Token contains: `{ sub: user_id, matrica_id: string }`
+   - Use in requests: `Authorization: Bearer <token>`
+   - Token expires after 24 hours (configurable)
+
+#### Endpoints Requiring Auth
+
+| Endpoint/Method | Auth Required | Description |
+|-----------------|---------------|-------------|
+| `exchange_pair` | No | List available pairs |
+| `get_opportunities` | No | Get arbitrage opportunities |
+| `opportunity_detail` | No | Get opportunity details |
+| `execute_opportunity` | **Yes** | Execute a trade |
+| `portfolio_live` | **Yes** | Get user's portfolio |
+| `close_execution` | **Yes** | Close a position |
+| `check_pair_status` | **Yes** | Check if pair is running |
+| `/metrics/*` | No | Platform metrics |
 
 ### JSON-RPC Endpoint
 ```
-POST /api/v1/jsonrpc/
+POST /jsonrpc/
 Content-Type: application/json
 
 {

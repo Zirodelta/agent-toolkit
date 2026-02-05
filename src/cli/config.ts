@@ -45,5 +45,5 @@ export function getToken(): string | undefined {
 }
 
 export function getBaseUrl(): string {
-  return process.env.ZIRODELTA_API_URL || loadConfig().baseUrl || 'https://api.zirodelta.com';
+  return process.env.ZIRODELTA_API_URL || loadConfig().baseUrl || 'https://api.zirodelta.xyz';
 }

@@ -63,7 +63,7 @@ export interface Opportunity {
   long_exchange: ExchangeName;
   short_exchange: ExchangeName;
   
-  // Funding rates (annualized %)
+  // Funding rates (percentage)
   long_funding_rate: number;
   short_funding_rate: number;
   spread: number;
@@ -84,6 +84,11 @@ export interface Opportunity {
   // Metadata
   created_at: string;
   updated_at: string;
+
+  // Extended fields from API
+  apr?: number;               // Annualized percentage rate
+  direction?: string;         // "Long Bybit / Short KuCoin" etc.
+  anomaly_reason?: string | null;
 }
 
 export interface OpportunityDetail extends Opportunity {
@@ -119,7 +124,7 @@ export interface GetOpportunitiesParams {
   page?: number;
   limit?: number;
   q?: string;  // Search query (symbol filter)
-  sortby?: 'spread' | 'risk_score' | 'liquidity_score' | 'next_funding_time';
+  sortby?: 'spread' | 'apr' | 'funding_delta' | 'epoch_hours' | 'risk_score' | 'liquidity_score' | 'next_funding_time';
 }
 
 export interface GetOpportunitiesResponse {
