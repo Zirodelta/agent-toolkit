@@ -402,6 +402,190 @@ h2 {
   line-height: 1.8;
 }
 
+/* For Humans Section */
+.for-humans {
+  padding: 6rem 2rem;
+}
+
+.humans-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.humans-badge {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--purple);
+  background: rgba(168, 85, 247, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 100px;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.humans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 3rem;
+}
+
+.humans-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  transition: border-color 0.2s;
+}
+
+.humans-card:hover {
+  border-color: var(--text-dim);
+}
+
+.humans-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.humans-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.humans-card p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.humans-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+}
+
+.detail-label {
+  color: var(--text-dim);
+}
+
+.detail-value {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Trust Section */
+.trust-section {
+  margin-bottom: 3rem;
+}
+
+.trust-card {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.03) 0%, rgba(34, 197, 94, 0.08) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: var(--radius);
+  padding: 2rem;
+}
+
+.trust-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.trust-icon {
+  font-size: 1.5rem;
+}
+
+.trust-header h3 {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.trust-item {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.trust-check {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--accent);
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.trust-item strong {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.trust-item p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Expect Timeline */
+.expect-section {
+  text-align: center;
+}
+
+.expect-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.expect-timeline {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.expect-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.5rem;
+  min-width: 200px;
+  text-align: left;
+}
+
+.expect-time {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--highlight);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.expect-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
 /* SDK Section */
 .code-block {
   background: var(--bg-card);
