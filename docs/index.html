@@ -3,89 +3,351 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zirodelta — Agent-Native Trading</title>
+  <title>Zirodelta — Funding Rate Arbitrage for AI Agents</title>
   <meta name="description" content="Funding rate arbitrage SDK for AI agents. Delta-neutral. Zero directional risk.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>△</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0a0a0a;
+      color: #e5e5e5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+    }
+
+    main {
+      max-width: 520px;
+      width: 100%;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .tagline {
+      font-size: 1.1rem;
+      color: #888;
+      margin-bottom: 32px;
+    }
+
+    /* Toggle Buttons */
+    .toggle-container {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .toggle-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .toggle-btn.human {
+      background: transparent;
+      border: 2px solid #22c55e;
+      color: #22c55e;
+    }
+
+    .toggle-btn.human.active {
+      background: #22c55e;
+      color: #000;
+    }
+
+    .toggle-btn.human:hover:not(.active) {
+      background: rgba(34, 197, 94, 0.1);
+    }
+
+    .toggle-btn.agent {
+      background: transparent;
+      border: 2px solid #22c55e;
+      color: #22c55e;
+    }
+
+    .toggle-btn.agent.active {
+      background: #22c55e;
+      color: #000;
+    }
+
+    .toggle-btn.agent:hover:not(.active) {
+      background: rgba(34, 197, 94, 0.1);
+    }
+
+    /* Card */
+    .card {
+      background: #111;
+      border: 1px solid #262626;
+      border-radius: 16px;
+      padding: 32px;
+      margin-top: 24px;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    /* URL Box */
+    .url-box {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .url-box code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #22c55e;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.2s;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .copy-btn:hover {
+      background: #262626;
+      color: #22c55e;
+    }
+
+    .copy-btn.copied {
+      color: #22c55e;
+    }
+
+    /* Steps */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      background: #22c55e;
+      color: #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .step-text {
+      font-size: 0.95rem;
+      color: #ccc;
+      line-height: 1.6;
+      padding-top: 3px;
+    }
+
+    .step-text code {
+      font-family: 'JetBrains Mono', monospace;
+      background: #1a1a1a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: #22c55e;
+    }
+
+    .step-text a {
+      color: #22c55e;
+      text-decoration: none;
+    }
+
+    .step-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* Code Block */
+    .code-block {
+      background: #1a1a1a;
+      border: 1px solid #262626;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 24px;
+      overflow-x: auto;
+    }
+
+    .code-block pre {
+      margin: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .code-block .kw { color: #c084fc; }
+    .code-block .str { color: #22c55e; }
+    .code-block .fn { color: #60a5fa; }
+    .code-block .cm { color: #666; }
+
+    /* Hidden */
+    .hidden {
+      display: none;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 60px;
+      display: flex;
+      gap: 16px;
+      color: #666;
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: #666;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #22c55e;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .toggle-btn {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+      }
+
+      .card {
+        padding: 24px;
+      }
+
+      .url-box code {
+        font-size: 0.75rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <main>
     <section class="hero">
-      <h1>△ Zirodelta</h1>
+      <h1>Zirodelta</h1>
       <p class="tagline">Funding rate arbitrage for AI agents</p>
       
       <div class="toggle-container">
-        <button class="toggle-btn active" data-path="human">I'm Human</button>
-        <button class="toggle-btn" data-path="agent">I'm Agent</button>
+        <button class="toggle-btn human active" data-target="human">👤 I'm a Human</button>
+        <button class="toggle-btn agent" data-target="agent">🤖 I'm an Agent</button>
       </div>
     </section>
 
-    <section class="steps" id="human-path">
-      <div class="step">
-        <span class="step-num">1</span>
-        <div class="step-content">
-          <h3>Get API Token</h3>
-          <p>Sign up at <a href="https://zirodelta.ag" target="_blank">zirodelta.ag</a></p>
+    <!-- Human Card -->
+    <div class="card" id="human-card">
+      <h2 class="card-title">Set Up Your Agent</h2>
+      
+      <div class="url-box">
+        <code id="human-url">https://agents.zirodelta.ag/skill.md</code>
+        <button class="copy-btn" onclick="copyUrl('human-url', this)">Copy</button>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <span class="step-text">Get your API token from <a href="https://zirodelta.ag" target="_blank">zirodelta.ag</a></span>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <span class="step-text">Give your agent the SKILL.md URL above</span>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <span class="step-text">Set <code>ZIRODELTA_TOKEN</code> in agent's environment</span>
         </div>
       </div>
+    </div>
+
+    <!-- Agent Card -->
+    <div class="card hidden" id="agent-card">
+      <h2 class="card-title">Start Trading</h2>
       
-      <div class="step">
-        <span class="step-num">2</span>
-        <div class="step-content">
-          <h3>Give Your Agent the SKILL.md</h3>
-          <code class="url">https://agents.zirodelta.ag/skill.md</code>
-        </div>
+      <div class="url-box">
+        <code id="agent-url">https://agents.zirodelta.ag/skill.md</code>
+        <button class="copy-btn" onclick="copyUrl('agent-url', this)">Copy</button>
       </div>
-      
-      <div class="step">
-        <span class="step-num">3</span>
-        <div class="step-content">
-          <h3>Set Environment Variable</h3>
-          <code>ZIRODELTA_TOKEN=your_token_here</code>
+
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <span class="step-text">Read SKILL.md for full instructions</span>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <span class="step-text"><code>npm install @zirodelta/agent-toolkit</code></span>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <span class="step-text">Call <code>client.autoTrade()</code> to begin</span>
         </div>
       </div>
 
-      <p class="done">That's it. Your agent handles the rest.</p>
-    </section>
+      <div class="code-block">
+<pre><span class="kw">import</span> { ZirodeltaClient } <span class="kw">from</span> <span class="str">'@zirodelta/agent-toolkit'</span>;
 
-    <section class="steps hidden" id="agent-path">
-      <div class="step">
-        <span class="step-num">1</span>
-        <div class="step-content">
-          <h3>Read SKILL.md</h3>
-          <code class="url"><a href="/skill.md">/skill.md</a></code>
-        </div>
-      </div>
-      
-      <div class="step">
-        <span class="step-num">2</span>
-        <div class="step-content">
-          <h3>Install SDK</h3>
-          <code>npm install @zirodelta/agent-toolkit</code>
-        </div>
-      </div>
-      
-      <div class="step">
-        <span class="step-num">3</span>
-        <div class="step-content">
-          <h3>Start Trading</h3>
-          <div class="code-block">
-<pre><code><span class="kw">import</span> { ZirodeltaClient } <span class="kw">from</span> <span class="str">'@zirodelta/agent-toolkit'</span>;
-
-<span class="kw">const</span> client = <span class="kw">new</span> ZirodeltaClient({
+<span class="kw">const</span> client = <span class="kw">new</span> <span class="fn">ZirodeltaClient</span>({
   token: process.env.ZIRODELTA_TOKEN
 });
 
-<span class="kw">await</span> client.autoTrade();</code></pre>
-          </div>
-        </div>
+<span class="kw">await</span> client.<span class="fn">autoTrade</span>();</pre>
       </div>
-
-      <p class="done">Full API reference in <a href="/skill.md">SKILL.md</a></p>
-    </section>
+    </div>
   </main>
 
   <footer>
@@ -96,23 +358,35 @@
 
   <script>
     const buttons = document.querySelectorAll('.toggle-btn');
-    const humanPath = document.getElementById('human-path');
-    const agentPath = document.getElementById('agent-path');
+    const humanCard = document.getElementById('human-card');
+    const agentCard = document.getElementById('agent-card');
 
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
         buttons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         
-        if (btn.dataset.path === 'human') {
-          humanPath.classList.remove('hidden');
-          agentPath.classList.add('hidden');
+        if (btn.dataset.target === 'human') {
+          humanCard.classList.remove('hidden');
+          agentCard.classList.add('hidden');
         } else {
-          humanPath.classList.add('hidden');
-          agentPath.classList.remove('hidden');
+          humanCard.classList.add('hidden');
+          agentCard.classList.remove('hidden');
         }
       });
     });
+
+    function copyUrl(elementId, btn) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
   </script>
 </body>
 </html>
