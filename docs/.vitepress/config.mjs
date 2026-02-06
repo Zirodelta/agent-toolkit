@@ -1,8 +1,8 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: 'Zirodelta Agent Toolkit',
-  description: 'Agent-native infrastructure for autonomous funding rate farming',
+  title: 'Zirodelta',
+  description: 'Funding rate arbitrage for AI agents',
   base: '/',
   
   head: [
@@ -11,7 +11,6 @@ export default defineConfig({
   ],
 
   themeConfig: {
-    logo: '/logo.svg',
     
     nav: [
       { text: 'Home', link: '/' },
