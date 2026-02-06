@@ -2,50 +2,48 @@
 layout: home
 
 hero:
-  name: "Zirodelta"
-  text: "Agent Toolkit"
-  tagline: Agent-native infrastructure for autonomous funding rate farming
+  name: "Earn 30%+ APY"
+  text: "From Funding Rate Arbitrage"
+  tagline: Delta-neutral. Fully automated. Built for AI agents.
   image:
     src: /logo.svg
     alt: Zirodelta
   actions:
     - theme: brand
-      text: For Humans →
+      text: Get Started →
       link: /humans/
     - theme: alt
-      text: For AI Agents →
+      text: Agent Docs →
       link: /agents/
 
 features:
-  - icon: 📦
-    title: TypeScript SDK
-    details: Full-typed client for the Zirodelta API with IntelliSense support and comprehensive error handling.
-  - icon: 🧠
-    title: Strategy Engine
-    details: Intelligent recommendations based on your balance, risk profile, and daily targets.
-  - icon: 🖥️
-    title: TUI Dashboard
-    details: Real-time terminal UI for monitoring positions, PnL, and opportunities.
-  - icon: ⌨️
-    title: CLI
-    details: Command-line interface for manual operation and scripting.
+  - icon: 🎯
+    title: "103% Avg ROI"
+    details: Across 149 real trades on our live beta. $20k+ volume and counting.
+  - icon: 🛡️
+    title: Zero Directional Risk
+    details: Go long on one exchange, short on another. Positions hedge each other. You collect the spread.
   - icon: 🤖
-    title: Agent-Ready
-    details: SKILL.md documentation format designed for AI agent integration.
-  - icon: ⚡
-    title: Delta Neutral
-    details: Profit from funding rate spreads with zero directional exposure.
+    title: Agent-Native
+    details: TypeScript SDK, CLI, and SKILL.md docs designed for autonomous AI agents to trade without human intervention.
 ---
 
-## What is Funding Rate Arbitrage?
+## How It Works
 
-Funding rates are periodic payments between long and short traders on perpetual futures exchanges. When rates diverge between exchanges, you can profit by:
+Funding rates are periodic payments between longs and shorts on perpetual futures. When rates differ across exchanges, that's free money.
 
-1. **Going long** on the exchange with lower (or negative) funding rate
-2. **Going short** on the exchange with higher (or positive) funding rate  
-3. **Collecting the spread** while positions hedge each other
+### 3 Steps to Profit
 
-### Example
+**1. Connect your exchanges**
+Link your Bybit and KuCoin accounts through Zirodelta. One API token, one config.
+
+**2. Find rate spreads**
+The engine scans for funding rate divergences across exchange pairs — and recommends the best opportunities based on your risk profile.
+
+**3. Execute & earn**
+Open hedged positions on both sides. Collect the spread every 8 hours. Close when the edge disappears.
+
+### Example Spread
 
 ```
 Bybit BTC/USDT:  +0.01% funding (longs pay shorts)
@@ -55,29 +53,47 @@ Spread: 0.03% per 8h = 0.09% daily = ~33% APY
 
 By going **long on KuCoin** and **short on Bybit**, you receive funding on both sides while your directional exposure cancels out.
 
-## Quick Install
+---
+
+## The Toolkit
+
+Everything you need to run funding rate arb — manually or autonomously.
+
+| Tool | What it does |
+|------|-------------|
+| **TypeScript SDK** | Full-typed API client with IntelliSense. Find, execute, and manage positions programmatically. |
+| **Strategy Engine** | Intelligent recommendations based on balance, risk profile, and daily targets. |
+| **CLI** | Command-line interface for scripting and manual operation. |
+| **TUI Dashboard** | Real-time terminal UI — positions, PnL, and opportunities at a glance. |
+| **SKILL.md** | Agent-readable docs so AI can trade autonomously. |
+
+---
+
+## Quick Start
 
 ```bash
 npm install zirodelta-agent-toolkit
 ```
-
-## Quick Example
 
 ```typescript
 import { ZirodeltaClient } from 'zirodelta-agent-toolkit';
 
 const client = new ZirodeltaClient({ token: process.env.ZIRODELTA_TOKEN });
 
-// Find opportunities
+// Find the best funding rate spreads
 const { opportunities } = await client.getOpportunities({
   exchangepair: 'kucoin-bybit',
   limit: 5,
   sortby: 'spread'
 });
 
-// Execute the best one
+// Execute a hedged position
 await client.executeOpportunity({
   opportunity_id: opportunities[0].id,
   amount: 100
 });
 ```
+
+<p style="text-align: center; margin-top: 2rem;">
+  <a href="/humans/quickstart">Full quickstart guide →</a> · <a href="/agents/">Build an autonomous agent →</a>
+</p>
