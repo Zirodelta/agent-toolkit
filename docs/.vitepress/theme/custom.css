@@ -1,0 +1,152 @@
+/* Zirodelta Custom Theme - Stunning & Simple */
+
+:root {
+  --vp-c-brand-1: #10b981;
+  --vp-c-brand-2: #059669;
+  --vp-c-brand-3: #047857;
+  --vp-c-brand-soft: rgba(16, 185, 129, 0.14);
+  
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  
+  --vp-home-hero-image-background-image: linear-gradient(135deg, #10b98150 0%, #06b6d450 100%);
+  --vp-home-hero-image-filter: blur(44px);
+}
+
+/* Hero section - bigger, bolder */
+.VPHero .name {
+  font-size: 4rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+}
+
+.VPHero .text {
+  font-size: 2.5rem !important;
+  font-weight: 700 !important;
+  color: var(--vp-c-text-1);
+}
+
+.VPHero .tagline {
+  font-size: 1.25rem !important;
+  max-width: 500px;
+}
+
+/* Feature cards - clean grid */
+.VPFeature {
+  background: linear-gradient(135deg, var(--vp-c-bg-soft) 0%, var(--vp-c-bg-alt) 100%) !important;
+  border: 1px solid var(--vp-c-divider) !important;
+  transition: all 0.3s ease !important;
+}
+
+.VPFeature:hover {
+  border-color: var(--vp-c-brand-1) !important;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(16, 185, 129, 0.1);
+}
+
+.VPFeature .icon {
+  font-size: 2.5rem !important;
+}
+
+.VPFeature .title {
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+}
+
+/* Code blocks - cleaner */
+.vp-code-group .tabs {
+  background: var(--vp-c-bg-soft);
+}
+
+div[class*='language-'] {
+  border-radius: 12px !important;
+}
+
+div[class*='language-'] code {
+  font-size: 0.9rem;
+}
+
+/* Copy box styling */
+.copy-box {
+  background: linear-gradient(135deg, #10b98115 0%, #06b6d415 100%);
+  border: 2px solid var(--vp-c-brand-1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.copy-box code {
+  font-size: 1.1rem !important;
+  background: var(--vp-c-bg) !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+/* Step cards */
+.step {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--vp-c-bg-soft);
+  border-radius: 12px;
+  margin: 1rem 0;
+  border-left: 4px solid var(--vp-c-brand-1);
+}
+
+.step-number {
+  background: var(--vp-c-brand-1);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Buttons - bigger, bolder */
+.VPButton.brand {
+  font-size: 1.1rem !important;
+  padding: 0.75rem 2rem !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+}
+
+/* Section dividers */
+hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--vp-c-divider), transparent);
+  margin: 3rem 0;
+}
+
+/* Headings */
+h1 {
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-weight: 700 !important;
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+/* Simplify content width */
+.vp-doc {
+  max-width: 720px;
+}
+
+/* Table styling */
+table {
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+th {
+  background: var(--vp-c-brand-soft) !important;
+}

@@ -1,95 +1,64 @@
-# SKILL.md - For AI Agents
+# For AI Agents
 
-This page contains the agent-readable documentation for AI integration.
+## Give Your Agent This URL
 
-## What is Funding Rate Arbitrage?
-
-Funding rates are periodic payments between long and short traders on perpetual futures exchanges. When rates diverge between exchanges, you can profit by:
-
-1. **Going long** on the exchange with lower (or negative) funding rate
-2. **Going short** on the exchange with higher (or positive) funding rate
-3. **Collecting the spread** while positions hedge each other
-
-### Example
+<div class="copy-box">
 
 ```
-Bybit BTC/USDT:  +0.01% funding (longs pay shorts)
-KuCoin BTC/USDT: -0.02% funding (shorts pay longs)
-Spread: 0.03% per 8h = 0.09% daily = ~33% APY
+https://agents.zirodelta.ag/skill.md
 ```
 
-## Quick Start for Agents
+</div>
+
+Your agent reads it. Your agent trades. You earn.
+
+---
+
+## Or Use The SDK
 
 ```typescript
 import { ZirodeltaClient } from 'zirodelta-agent-toolkit';
 
-const client = new ZirodeltaClient({
-  token: process.env.ZIRODELTA_TOKEN
+const client = new ZirodeltaClient({ 
+  token: process.env.ZIRODELTA_TOKEN 
 });
 
-// Find opportunities
+// Find best opportunity
 const { opportunities } = await client.getOpportunities({
   exchangepair: 'kucoin-bybit',
-  limit: 5,
   sortby: 'spread'
 });
 
-// Execute best opportunity
-const best = opportunities[0];
-if (best.spread > 0.005) {  // > 0.5% spread
-  await client.executeOpportunity({
-    opportunity_id: best.id,
-    amount: 100  // $100 USD
-  });
-}
-
-// Monitor portfolio
-const portfolio = await client.getPortfolio();
-console.log('Total PnL:', portfolio.summary.total_unrealized_pnl);
-
-// Close when target reached
-if (portfolio.summary.weighted_roi > 0.05) {  // > 5% ROI
-  for (const exec of portfolio.executions) {
-    await client.closeExecution({ 
-      execution_id: exec.execution.id 
-    });
-  }
-}
+// Execute it
+await client.executeOpportunity({
+  opportunity_id: opportunities[0].id,
+  amount: 100
+});
 ```
 
-## Key Methods
+---
 
-| Method | Auth | Description |
-|--------|------|-------------|
-| `getOpportunities()` | No | Find arbitrage opportunities |
-| `getOpportunityDetail()` | No | Get opportunity details |
-| `executeOpportunity()` | **Yes** | Open a position |
-| `getPortfolio()` | **Yes** | View current positions |
-| `closeExecution()` | **Yes** | Close a position |
-| `checkPairStatus()` | **Yes** | Check if pair is active |
+## What It Does
 
-## Decision Framework
+| Your Agent | Zirodelta |
+|-----------|-----------|
+| Calls `getOpportunities()` | Returns profitable spreads |
+| Calls `executeOpportunity()` | Opens hedged positions |
+| Calls `getPortfolio()` | Shows current positions |
+| Calls `closeExecution()` | Closes and takes profit |
 
-```
-IF spread > minThreshold AND
-   balance >= requiredAmount AND
-   openPositions < maxPositions
-THEN execute opportunity
-```
+---
 
-Recommended thresholds:
-- `minSpread`: 0.03% (conservative) to 0.01% (aggressive)
-- `minAmount`: $50 USD
-- `maxPositions`: 3-5 concurrent
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;">
 
-## Risk Management
+<a href="/agents/autonomous" style="display: block; padding: 1.5rem; background: var(--vp-c-bg-soft); border-radius: 12px; text-decoration: none;">
+  <strong>Auto-Trading Loop →</strong><br>
+  <span style="color: var(--vp-c-text-2);">Set it and forget it</span>
+</a>
 
-1. **Never over-leverage** - Keep positions balanced between exchanges
-2. **Monitor funding changes** - Rates can flip, eroding profits
-3. **Set stop conditions** - Close if ROI goes negative beyond threshold
-4. **Diversify** - Don't put all capital in one position
+<a href="/agents/auth" style="display: block; padding: 1.5rem; background: var(--vp-c-bg-soft); border-radius: 12px; text-decoration: none;">
+  <strong>Get a Token →</strong><br>
+  <span style="color: var(--vp-c-text-2);">Device auth flow</span>
+</a>
 
-## Next Steps
-
-- [Autonomous Loop](/agents/autonomous) - Full agent implementation
-- [Authentication](/agents/auth) - Getting and using tokens
+</div>

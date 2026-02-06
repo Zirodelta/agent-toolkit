@@ -1,73 +1,47 @@
-# Installation
+# Get Started
 
-Get started with the Zirodelta Agent Toolkit in minutes.
-
-## Requirements
-
-- Node.js 18+
-- npm, pnpm, or yarn
-
-## Install
-
-::: code-group
-
-```bash [npm]
-npm install zirodelta-agent-toolkit
-```
-
-```bash [pnpm]
-pnpm add zirodelta-agent-toolkit
-```
-
-```bash [yarn]
-yarn add zirodelta-agent-toolkit
-```
-
-:::
-
-### Global CLI Installation
-
-For command-line usage anywhere:
+## 1. Install
 
 ```bash
 npm install -g zirodelta-agent-toolkit
 ```
 
-## Configuration
+## 2. Get Your Token
 
-### Environment Variable
+Go to [zirodelta.ag](https://zirodelta.ag) → Connect wallet → Link exchanges → Copy token
+
+## 3. Set Token
 
 ```bash
 export ZIRODELTA_TOKEN="your-token-here"
 ```
 
-### CLI Configuration
+## 4. Find Opportunities
 
 ```bash
-zirodelta config set token your-token-here
+zirodelta opportunities
 ```
 
-### SDK Configuration
+## 5. Trade
 
-```typescript
-import { ZirodeltaClient } from 'zirodelta-agent-toolkit';
-
-const client = new ZirodeltaClient({
-  token: process.env.ZIRODELTA_TOKEN,
-  // Optional: custom base URL
-  baseUrl: 'https://api.zirodelta.xyz'
-});
+```bash
+zirodelta trade BTC-USDT 100
 ```
 
-## Getting Your Token
+That's it. You're earning.
 
-1. Visit [zirodelta.ag](https://zirodelta.ag)
-2. Connect your wallet via Matrica OAuth
-3. Link your exchange accounts (Bybit, KuCoin)
-4. Your token will be provided in the dashboard
+---
 
-## Next Steps
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;">
 
-- [Quick Start Guide](/humans/quickstart) - Your first trade
-- [CLI Reference](/humans/cli) - Command-line interface
-- [Strategy Engine](/humans/strategy) - Automated recommendations
+<a href="/humans/cli" style="display: block; padding: 1.5rem; background: var(--vp-c-bg-soft); border-radius: 12px; text-decoration: none;">
+  <strong>CLI Reference →</strong><br>
+  <span style="color: var(--vp-c-text-2);">All commands</span>
+</a>
+
+<a href="/humans/tui" style="display: block; padding: 1.5rem; background: var(--vp-c-bg-soft); border-radius: 12px; text-decoration: none;">
+  <strong>TUI Dashboard →</strong><br>
+  <span style="color: var(--vp-c-text-2);">Visual interface</span>
+</a>
+
+</div>

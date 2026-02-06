@@ -1,158 +1,93 @@
 # API Reference
 
-Complete reference for the Zirodelta Agent Toolkit SDK and JSON-RPC API.
-
-## SDK Overview
+## Quick Setup
 
 ```typescript
-import { 
-  ZirodeltaClient, 
-  StrategyEngine,
-  // Types
-  Opportunity,
-  Execution,
-  Portfolio
-} from 'zirodelta-agent-toolkit';
-```
+import { ZirodeltaClient } from 'zirodelta-agent-toolkit';
 
-## ZirodeltaClient
-
-Main client for interacting with the Zirodelta API.
-
-### Constructor
-
-```typescript
-const client = new ZirodeltaClient({
-  token?: string;       // Bearer token for authenticated requests
-  baseUrl?: string;     // API base URL (default: https://api.zirodelta.xyz)
-  timeout?: number;     // Request timeout in ms (default: 30000)
+const client = new ZirodeltaClient({ 
+  token: process.env.ZIRODELTA_TOKEN 
 });
 ```
 
-### Methods
+---
 
-#### getOpportunities()
+## Methods
 
-Find arbitrage opportunities.
-
-```typescript
-const result = await client.getOpportunities({
-  exchangepair: string;  // e.g., 'kucoin-bybit'
-  limit?: number;        // Max results (default: 10)
-  sortby?: 'spread' | 'volume' | 'symbol';
-  minSpread?: number;    // Minimum spread filter
-});
-
-// Returns
-interface GetOpportunitiesResult {
-  opportunities: Opportunity[];
-  timestamp: string;
-}
-```
-
-#### getOpportunityDetail()
-
-Get detailed information about an opportunity.
+### Find Opportunities (no auth needed)
 
 ```typescript
-const detail = await client.getOpportunityDetail({
-  opportunity_id: string;
+const { opportunities } = await client.getOpportunities({
+  exchangepair: 'kucoin-bybit',  // required
+  limit: 10,                      // optional
+  sortby: 'spread'                // optional
 });
 ```
 
-#### executeOpportunity()
-
-Execute an arbitrage opportunity. **Requires authentication.**
+### Execute Trade (auth required)
 
 ```typescript
-const result = await client.executeOpportunity({
-  opportunity_id: string;
-  amount: number;         // USD amount
-  mode?: 'grid' | 'single-direct' | 'single-delay';
+await client.executeOpportunity({
+  opportunity_id: 'opp_123',
+  amount: 100  // USD
 });
-
-// Returns
-interface ExecuteResult {
-  execution_id: string;
-  status: string;
-  legs: ExecutionLeg[];
-}
 ```
 
-#### getPortfolio()
-
-Get current portfolio and positions. **Requires authentication.**
+### Check Portfolio (auth required)
 
 ```typescript
 const portfolio = await client.getPortfolio();
-
-// Returns
-interface Portfolio {
-  summary: {
-    total_unrealized_pnl: number;
-    weighted_roi: number;
-    total_notional: number;
-  };
-  executions: ExecutionDetail[];
-}
+// → { summary, executions }
 ```
 
-#### closeExecution()
-
-Close a position. **Requires authentication.**
+### Close Position (auth required)
 
 ```typescript
 await client.closeExecution({
-  execution_id: string;
+  execution_id: 'exec_456'
 });
 ```
 
-#### checkPairStatus()
+---
 
-Check if an exchange pair is active. **Requires authentication.**
-
-```typescript
-const status = await client.checkPairStatus({
-  exchangepair: string;
-});
-```
-
-## Types
+## Response Types
 
 ### Opportunity
 
 ```typescript
-interface Opportunity {
-  id: string;
-  symbol: string;
-  exchangepair: string;
-  spread: number;
-  long_exchange: string;
-  short_exchange: string;
-  long_funding: number;
-  short_funding: number;
-  volume_24h: number;
-  updated_at: string;
+{
+  id: string,
+  symbol: string,        // "BTC-USDT"
+  spread: number,        // 0.0003 = 0.03%
+  long_exchange: string,
+  short_exchange: string
 }
 ```
 
-### Execution
+### Portfolio
 
 ```typescript
-interface Execution {
-  id: string;
-  symbol: string;
-  status: 'pending' | 'active' | 'closing' | 'closed';
-  amount: number;
-  entry_spread: number;
-  current_spread: number;
-  pnl: number;
-  roi: number;
-  opened_at: string;
+{
+  summary: {
+    total_unrealized_pnl: number,
+    weighted_roi: number
+  },
+  executions: Execution[]
 }
 ```
 
-## Next Steps
+---
 
-- [SDK Methods](/api/sdk) - Detailed method reference
-- [JSON-RPC](/api/jsonrpc) - Direct API access
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;">
+
+<a href="/api/sdk" style="display: block; padding: 1.5rem; background: var(--vp-c-bg-soft); border-radius: 12px; text-decoration: none;">
+  <strong>Full SDK Docs →</strong><br>
+  <span style="color: var(--vp-c-text-2);">All methods & options</span>
+</a>
+
+<a href="/api/jsonrpc" style="display: block; padding: 1.5rem; background: var(--vp-c-bg-soft); border-radius: 12px; text-decoration: none;">
+  <strong>JSON-RPC →</strong><br>
+  <span style="color: var(--vp-c-text-2);">Direct API access</span>
+</a>
+
+</div>
