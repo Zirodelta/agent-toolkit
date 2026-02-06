@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zirodelta — Funding Rate Arbitrage for AI Agents</title>
+  <meta name="description" content="Delta-neutral funding rate farming. Zero directional risk. 30%+ APY potential. Agent-native SDK for autonomous trading.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>△</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-content">
+      <a href="/" class="logo">△ Zirodelta</a>
+      <div class="nav-links">
+        <a href="#how-it-works">How It Works</a>
+        <a href="#sdk">SDK</a>
+        <a href="/skill.md" class="skill-link">📚 SKILL.md</a>
+        <a href="https://github.com/Zirodelta/agent-toolkit" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="hero-badge">AGENT-NATIVE</div>
+      <h1>Zirodelta</h1>
+      <p class="hero-tagline">Funding rate arbitrage for AI agents</p>
+      <p class="hero-sub">
+        Delta-neutral positions. Zero directional risk.<br>
+        Earn from funding rate spreads — up to <span class="highlight">30%+ APY</span>.
+      </p>
+      <div class="hero-cta">
+        <a href="#sdk" class="btn btn-primary">Get Started</a>
+        <a href="/skill.md" class="btn btn-secondary">Read SKILL.md</a>
+      </div>
+    </section>
+
+    <section class="problem">
+      <div class="problem-card">
+        <div class="problem-icon">💡</div>
+        <h3>The Opportunity</h3>
+        <p>
+          Perpetual futures have <strong>funding rates</strong> — periodic payments between longs and shorts. 
+          When rates diverge between exchanges, there's free money on the table.
+        </p>
+        <div class="problem-example">
+          <code>
+            <span class="dim">Bybit BTC/USDT:</span>  <span class="positive">+0.01%</span> <span class="dim">(longs pay shorts)</span><br>
+            <span class="dim">KuCoin BTC/USDT:</span> <span class="negative">-0.02%</span> <span class="dim">(shorts pay longs)</span><br>
+            <span class="dim">Spread:</span> <span class="highlight">0.03%</span> per 8h = <span class="highlight">~33% APY</span>
+          </code>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works">
+      <h2>How It Works</h2>
+      <p class="section-sub">Delta-neutral = price movement doesn't matter. You earn regardless.</p>
+      
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-icon">🔍</div>
+          <h3>Find Opportunities</h3>
+          <p>SDK scans funding rates across exchanges. Surfaces spreads worth capturing.</p>
+        </div>
+        
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-icon">⚡</div>
+          <h3>Execute Hedge</h3>
+          <p>Long spot on one exchange, short perp on another. Positions cancel out directional exposure.</p>
+        </div>
+        
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-icon">💰</div>
+          <h3>Collect Funding</h3>
+          <p>Receive funding payments from both sides. Close when you hit your target ROI.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="delta-neutral">
+      <div class="dn-content">
+        <div class="dn-visual">
+          <div class="dn-position dn-long">
+            <span class="dn-label">LONG</span>
+            <span class="dn-exchange">KuCoin Spot</span>
+            <span class="dn-arrow">↗</span>
+          </div>
+          <div class="dn-equals">=</div>
+          <div class="dn-position dn-short">
+            <span class="dn-label">SHORT</span>
+            <span class="dn-exchange">Bybit Perp</span>
+            <span class="dn-arrow">↘</span>
+          </div>
+          <div class="dn-result">
+            <span class="dn-zero">Δ = 0</span>
+            <span class="dn-caption">Net exposure: zero</span>
+          </div>
+        </div>
+        <div class="dn-text">
+          <h3>Delta-Neutral</h3>
+          <p>Price goes up? Long wins, short loses — net zero.<br>
+          Price goes down? Short wins, long loses — net zero.<br>
+          <strong>Funding rates? You keep those.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="sdk" class="sdk">
+      <h2>Agent-Native SDK</h2>
+      <p class="section-sub">Built for AI agents to trade autonomously. TypeScript SDK + CLI + SKILL.md.</p>
+      
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">TypeScript</span>
+          <span class="code-file">autonomous-farming.ts</span>
+        </div>
+        <pre><code><span class="kw">import</span> { ZirodeltaClient } <span class="kw">from</span> <span class="str">'@zirodelta/agent-toolkit'</span>;
+
+<span class="kw">const</span> client = <span class="kw">new</span> ZirodeltaClient({
+  token: process.env.ZIRODELTA_TOKEN
+});
+
+<span class="cmt">// Find high-spread opportunities</span>
+<span class="kw">const</span> { opportunities } = <span class="kw">await</span> client.getOpportunities({
+  exchangepair: <span class="str">'kucoin-bybit'</span>,
+  limit: <span class="num">5</span>,
+  sortby: <span class="str">'spread'</span>
+});
+
+<span class="cmt">// Execute the best one</span>
+<span class="kw">const</span> best = opportunities[<span class="num">0</span>];
+<span class="kw">if</span> (best.spread > <span class="num">0.005</span>) {
+  <span class="kw">await</span> client.executeOpportunity({
+    opportunity_id: best.id,
+    amount: <span class="num">100</span>  <span class="cmt">// $100 USD</span>
+  });
+}
+
+<span class="cmt">// Monitor and close when profitable</span>
+<span class="kw">const</span> portfolio = <span class="kw">await</span> client.getPortfolio();
+<span class="kw">if</span> (portfolio.summary.weighted_roi > <span class="num">0.05</span>) {
+  <span class="kw">for</span> (<span class="kw">const</span> exec <span class="kw">of</span> portfolio.executions) {
+    <span class="kw">await</span> client.closeExecution({ 
+      execution_id: exec.execution.id 
+    });
+  }
+}</code></pre>
+      </div>
+
+      <div class="install-row">
+        <div class="install-box">
+          <span class="install-label">npm</span>
+          <code>npm install @zirodelta/agent-toolkit</code>
+        </div>
+        <div class="install-box">
+          <span class="install-label">CLI</span>
+          <code>npx zirodelta opportunities --pair kucoin-bybit</code>
+        </div>
+      </div>
+    </section>
+
+    <section class="skill-section">
+      <div class="skill-card">
+        <div class="skill-icon">📚</div>
+        <h3>SKILL.md — For AI Agents</h3>
+        <p>
+          Agent-readable documentation at <code>/skill.md</code>. 
+          Contains API reference, workflows, decision criteria, and risk management rules.
+        </p>
+        <p class="skill-url">
+          <code>https://agents.zirodelta.ag/skill.md</code>
+        </p>
+        <a href="/skill.md" class="btn btn-primary">Read SKILL.md →</a>
+      </div>
+    </section>
+
+    <section class="pairs">
+      <h2>Supported Exchange Pairs</h2>
+      <div class="pair-grid">
+        <div class="pair">
+          <span class="pair-name">kucoin-bybit</span>
+          <span class="pair-desc">Long KuCoin • Short Bybit</span>
+        </div>
+        <div class="pair">
+          <span class="pair-name">bybit-kucoin</span>
+          <span class="pair-desc">Long Bybit • Short KuCoin</span>
+        </div>
+        <div class="pair">
+          <span class="pair-name">hyperliquid-bybit</span>
+          <span class="pair-desc">Long HyperLiquid • Short Bybit</span>
+        </div>
+        <div class="pair">
+          <span class="pair-name">bybit-hyperliquid</span>
+          <span class="pair-desc">Long Bybit • Short HyperLiquid</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-final">
+      <h2>Start Farming</h2>
+      <p>Let your agent earn while you sleep.</p>
+      <div class="cta-buttons">
+        <a href="https://github.com/Zirodelta/agent-toolkit" class="btn btn-primary">GitHub →</a>
+        <a href="/skill.md" class="btn btn-secondary">SKILL.md</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <span class="footer-logo">△ Zirodelta</span>
+      <span class="footer-links">
+        <a href="https://github.com/Zirodelta/agent-toolkit">GitHub</a>
+        <a href="/skill.md">SKILL.md</a>
+      </span>
+      <span class="footer-copy">© 2024 Zirodelta</span>
+    </div>
+  </footer>
+</body>
+</html>
